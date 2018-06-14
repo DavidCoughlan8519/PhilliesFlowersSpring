@@ -1,0 +1,381 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" >
+	<head>
+		<title>Spring Boot Thymeleaf Hello World Example</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+ 		<link href="https://unpkg.com/basscss@7.1.1/css/basscss.min.css" rel="stylesheet"/>
+ 		<link rel="stylesheet" type="text/css" media="all" href="../static/style.css" th:href="@{/style.css}" />
+ 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+ 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+	</head>
+	<body>     
+	
+		<!-- ############################################################# -->
+		
+		<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+			<!-- Brand -->
+			<a class="navbar-brand" href="#">{Shop Name}</a>
+		
+			<!-- Toggler/collapsibe Button -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		
+			<!-- Navbar links -->
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="#">SETTINGS</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">SHOP</a>
+					</li>
+				 </ul>
+			</div> 
+		</nav>
+		<!-- ############################################################# -->
+		
+		<div class="container-fluid fill-height">
+			<div class="row bg-black">
+				<nav class="col-sm-3 col-md-2 white bg-lighten-1 sidebar">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link active side-opt" id="nav1" onclick='switchPan(statistic, nav1)'><i class="fa fa-line-chart"></i>  STATISTICS</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link not-active side-opt"  id="nav2" onclick='switchPan(supplier, nav2)'><i class="fa fa-shopping-basket"></i>  SUPPLIER</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link not-active side-opt"  id="nav3" onclick='switchPan(staff, nav3)'><i class="fa fa-users" aria-hidden="true"></i>  STAFF</a>
+						</li> 
+						<li class="nav-item">
+							<a class="nav-link not-active side-opt"  id="nav4" href="#"><i class="fa fa-cog" aria-hidden="true"></i>  SETTINGS</a>
+						</li> 
+					</ul>
+				</nav>
+
+				<div class="col-sm-9 col-md-10 main white bg-lighten-2">
+					<div id="statistic" class="show-pan">
+						<h1 id="name">Dashboard</h1>
+						<div class="row">
+							<div class="col-lg-3 col-md-6 col-sm-6">
+								<div class="card bg-darken-2">
+									<div class="card-body">
+										<p class="card-title">Balance</p>
+										<div class="card-break bg-lighten-2"></div>
+										<h4 class="card-text" th:text="${Statistics.userBalance}">{account-balance}</h4>
+									</div>
+								</div>
+	            			</div>
+	            			<div class="col-lg-3 col-md-6 col-sm-6">
+	            				<div class="card  bg-darken-2">
+									<div class="card-body">
+										<p class="card-title">Orders</p>
+										<div class="card-break bg-lighten-2"></div>
+										<h4 class="card-text" th:text="${#lists.size(Statistics.orders)}">{order-count}</h4>
+									</div>
+								</div>
+	            			</div>
+	            			<div class="col-lg-3 col-md-6 col-sm-6">
+	            				<div class="card  bg-darken-2">
+									<div class="card-body">
+										<p class="card-title">Funds Outstanding</p>
+										<div class="card-break bg-lighten-2"></div>
+										<h4 class="card-text" th:text="${Statistics.outStandingAmount}">{Supply-debt}</h4>
+									</div>
+								</div>
+	            			</div>
+	            			<div class="col-lg-3 col-md-6 col-sm-6">
+	            				<div class="card  bg-darken-2">
+									<div class="card-body">
+										<p class="card-title">Revenue</p>
+										<div class="card-break bg-lighten-2"></div>
+										<h4 class="card-text" th:text="${Statistics.shopRevenue}">{shop-Revenue}</h4>
+									</div>
+								</div>
+	            			</div>
+						</div>
+						
+					 	<table class="table table-striped">
+						    <thead>
+								<tr>
+									<th>ID</th>
+									<th>Date</th>
+									<th>Name</th>
+									<th>Cost</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="order : ${Statistics.orders}">
+									<td th:text="${order.key}">ID</td>
+									<td th:text="${order.value.date_time}">Date</td>
+									<td th:text="${order.value.address.lastname}">Name</td>
+									<td th:text="${order.value.cost}">Cost</td>
+									<th><button type="button" class="btn btn-dark" th:onclick="'view('+ ${order.key} +')'">View</button></th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="close-pan" id="staff">
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-sm-6">
+								<h1 id="name">Staff</h1>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 mx-auto">
+								<button class="btn bg-lighten-2 Add_user" data-toggle="modal" data-target="#add-user">Add</button>
+							</div>
+						</div>
+						<table class="table table-striped">
+						    <thead>
+								<tr>
+									<th>ID</th>
+									<th>First Name</th>
+									<th>Last Name</th>
+									<th>Position</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody id="staff-table">
+								<tr th:each="staff : ${Staff}">
+									<td th:text="${staff.id}">ID</td>
+									<td th:text="${staff.firstName}">Date</td>
+									<td th:text="${staff.lastName}">Name</td>
+									<td th:text="${staff.position}">Cost</td>
+									<th><button th:if="${staff.position != 'Administrator'}" type="button" th:value="${staff.id}" class="btn btn-dark edit-handle" data-toggle="modal" data-target="#edit-user">Promote</button></th>
+								</tr>
+							</tbody>
+						</table>
+						<div class="alert alert-success alert-dismissable fade show bottom" id="notify">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<strong>Success!</strong> New Staff Member Added.
+						 </div>
+					</div>
+					
+					<div class="close-pan" id="supplier">
+						<h1 id="name" >Supplier</h1>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<!-- ##################################################################################### -->
+		
+		<div class="modal fade" id="add-user">
+			<div class="modal-dialog bg-dark">
+				<div class="modal-content white bg-lighten-1">
+				
+				  <!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Add Staff Member</h4>
+						<button id="close-add-staff" type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					
+					<!-- Modal body -->
+					<div class="modal-body">
+						<form id="addStaff" action="/admin/staff/add" method="post">
+							<div class="form-group">
+								<label for="first">First Name:</label>
+								<input type="text" name = "firstname"  required="required" class="form-control" id="first"/>
+							</div>
+							<div class="form-group">
+								<label for="last">Last Name:</label>
+								<input type="text" name = "lastname"  required="required" class="form-control" id="last"/>
+							</div>
+							<div class="form-group">
+								<label for="pass">Password:</label>
+								<input type="text" name = "password"  required="required" class="form-control" id="pass"/>
+							</div>
+							<label for="pos">Position (select one):</label>
+							<select class="form-control" name = "position"  required="required" id="pos">
+								<option>Manager</option>
+								<option>Assistant</option>
+								<option>Administrator</option>
+							</select>
+							<hr></hr>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+					
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="edit-user">
+			<div class="modal-dialog bg-dark">
+				<div class="modal-content white bg-lighten-1">
+				
+				  <!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Promote Member</h4>
+						<button id="close-edit-staff" type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					
+					<!-- Modal body -->
+					<div class="modal-body">
+						<form id="editStaff" action="/admin/staff/edit" method="post">
+							<label for="pos">Position (select one):</label>
+							<select class="form-control" name = "position"  required="required" id="pos">
+								<option>Manager</option>
+								<option>Assistant</option>
+								<option>Administrator</option>
+							</select>
+							<hr></hr>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+					
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+		
+		
+		<script>
+			var active_id = 0;
+			$(".edit-handle").click(function () {
+				var x = this;
+				active_id = x.getAttribute("value");
+		    });
+			
+			var frm2 = $('#editStaff');
+
+		    frm2.submit(function (e) {
+		    	e.preventDefault();
+		    	var result = { };
+		    	result["id"] = active_id;
+		    	var x = frm2.serializeArray();
+		    	$.each(x, function(i, field){
+		    		result[field.name] = field.value;
+		        });
+		        $.ajax({
+		            type: "PUT",
+		            url: frm2.attr('action'),
+		            data: JSON.stringify(result),
+		            contentType: 'application/json',
+		            success: closeEdit()
+		        });
+		    });
+		
+			function view(id){ 
+				alert(id);
+			}
+			
+			function switchPan(new_pan, nav){
+				var options = document.getElementsByClassName("side-opt");
+				Array.prototype.forEach.call(options, function(el) {
+				    if(!el.id.localeCompare(nav.id)){
+				    	el.setAttribute("class", "nav-link active side-opt");
+					}else{
+						el.setAttribute("class", "nav-link not-active side-opt");
+					}
+				});
+				var div = document.getElementById(new_pan.id);
+				var old_div = document.getElementsByClassName("show-pan")[0];
+				old_div.setAttribute("Class", "close-pan");
+				div.setAttribute("Class", "show-pan");
+				old_div.setAttribute("style", "display:none;")
+				div.setAttribute("style", "display: block;");
+			}
+			
+			var frm = $('#addStaff');
+
+		    frm.submit(function (e) {
+		    	e.preventDefault();
+		    	var result = { };
+		    	var x = frm.serializeArray();
+		    	$.each(x, function(i, field){
+		    		result[field.name] = field.value;
+		        });
+		        $.ajax({
+		            type: frm.attr('method'),
+		            url: frm.attr('action'),
+		            data: JSON.stringify(result),
+		            contentType: 'application/json',
+		            success: closeStaff()
+		        });
+		    });
+		    
+		    function closeStaff(){
+		    	var close = document.getElementById("close-add-staff");
+		    	close.click();
+		    	updateStaff();
+	    	 	var notify = document.getElementById("notify");
+			    notify.setAttribute("style", "display:block;");
+		    }
+		    
+		    function closeEdit(){
+		    	var close = document.getElementById("close-edit-staff");
+		    	close.click();
+		    	updateStaff();
+		    }
+		    
+		    var notify = document.getElementById("notify");
+		    notify.setAttribute("style", "display:none;");
+		    
+		    function updateStaff(){
+		    	setTimeout(function () {
+		    		var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+						if (this.readyState == 4){
+							if(this.status == 200){
+								$("#staff-table").html("");
+								var items = JSON.parse(this.responseText);
+								console.log(items);
+								for (var key in items) {
+									var tr = document.createElement("tr");
+									var td1 = document.createElement("td");
+									var t1 = document.createTextNode(items[key].id);   
+									td1.appendChild(t1);
+									var td2 = document.createElement("td");
+									var t2 = document.createTextNode(items[key].firstName);  
+									td2.appendChild(t2);
+									var td3 = document.createElement("td");
+									var t3 = document.createTextNode(items[key].lastName);  
+									td3.appendChild(t3);
+									var td4 = document.createElement("td");
+									var t4 = document.createTextNode(items[key].position);  
+									td4.appendChild(t4);
+									var td5 = document.createElement("td");
+									var button = document.createElement("button");
+									var t5 = document.createTextNode("Promote");  
+									button.appendChild(t5);
+									button.setAttribute("class", "btn btn-dark edit-handle");
+									button.setAttribute("data-toggle", "modal");
+									button.setAttribute("data-target", "#edit-user");
+									button.setAttribute("data-toggle", "modal");
+									button.setAttribute("value", items[key].id);
+									td5.appendChild(button);
+									tr.appendChild(td1);
+									tr.appendChild(td2);
+									tr.appendChild(td3);
+									tr.appendChild(td4);
+									if(items[key].position.localeCompare("Administrator")){
+										tr.appendChild(td5);
+									}
+									document.getElementById("staff-table").appendChild(tr);
+								}
+							}
+						}
+					};
+					xhttp.open("GET", "/admin/staff/get", true);
+					xhttp.send();
+		        }, 1000);
+			}
+		</script>
+	</body>
+</html>

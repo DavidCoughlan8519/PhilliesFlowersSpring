@@ -1,0 +1,89 @@
+html, body, .container-fluid, .row{
+    min-height: 100% !important;
+}
+
+.fill-height{
+   height: 100vh;
+}
+
+.sidebar{
+	padding : 0px !important;
+}
+
+a{
+	padding-left: 15px !important;
+	color:gray !important;
+}
+
+a:hover{
+	color:white !important;
+}
+
+.nav-item:hover{
+	background-color: #585656  !important;
+}
+
+.active{
+	background-color: #232323 !important;
+	border-left: 2px solid  #84b547 !important;
+}
+
+.not-active{
+	border-left: 2px solid  !important;
+	border-color: hsla(0,0%,100%,.0625) !important;
+}
+
+.close-pan{
+	display: none !important;
+}
+
+.show-pan{
+	display: block !important;
+}
+
+.menu-opt{
+	font-size: 15px !important;
+    text-transform: uppercase !important;
+    font-weight: bolder !important;
+    letter-spacing: 1px !important;
+    color: gray !important;
+}
+
+.card{
+	margin-bottom: 15px !important;
+	border-radius: 0px !important;
+	border: 0px !important;
+}
+
+.card-body{
+	padding: 0px !important;
+}
+
+.card-title{
+	padding-top:0.40rem;
+	padding-left: 1.25rem;
+	padding-bottom:0.40rem;
+	margin:0px !important;
+}
+
+.card-text{
+	padding-bottom:1.25rem;
+	padding-left: 1.25rem;
+}
+
+.card-break{
+	width: 100%;
+	height: 1px;
+	margin-bottom: 0.75rem;
+}
+
+.Add_user{
+	margin-top: 32px !important;
+	margin-left: 45% !important;
+	margin-bottom: 16px !important;
+}
+
+.bottom{
+	position: absolute;
+  	bottom: 0;
+}

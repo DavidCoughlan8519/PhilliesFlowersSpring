@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Spring Boot Thymeleaf Hello World Example</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<p>Welcome to my Website</p>
+		<table>
+			<tr th:each="item : ${items}">
+				<td th:text="${item.id}">ID</td>
+				<td th:text="${item.name}">NAME</td>
+				<td th:text="${item.cost}">COST</td>
+				<td>
+					<button th:onclick="'buyFunc('+ ${item.id} +')'">Buy</button>
+				</td>
+			</tr>
+		</table>
+		<p>Cart:</p>
+		<table id="Cart">
+		</table>
+		
+		<script>
+			function buyFunc(id) {
+				var send_url = "cart/1/" + id;
+				var send_data = "{operation:'ADD', count:'1'}";
+				$.ajax({
+					url: send_url,
+					type: 'PUT',
+					dataType: 'json', 
+					data: JSON.stringify({operation:'ADD', count:'1'}),
+					contentType: 'application/json', 
+					success: updateCart()
+				});
+			}
+			
+			function updateCart(){
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4){
+						if(this.status == 200){
+							$("#Cart").html("");
+							var items = JSON.parse(this.responseText);
+							for (var key in items) {
+								if (items.hasOwnProperty(key)) {
+									for(var key2 in items[key]){
+										if (items[key].hasOwnProperty(key2)) {
+											var val = items[key][key2];
+											var $item = $("<tr><td>"+ val["count"] +"</td><td>"+ val["item"]["name"] +"</td><td>"+ (val["item"]["cost"] * val["count"]) +"</td></tr>");
+											console.log(val);
+											$("#Cart").append($item);
+										}
+									}
+								}
+							}
+						}
+					}
+				};
+				xhttp.open("GET", "cart/1", true);
+				xhttp.send();
+			}
+		</script>
+	</body>
+</html>
